@@ -1,7 +1,4 @@
-lib/ServerControl/Module/Apache.pm
-lib/ServerControl/Module/Memcached.pm
-lib/ServerControl/Schema/Debian/Apache.pm
-lib/ServerControl/Schema/Debian/Memcached.pm
-lib/ServerControl/Schema/MacPorts/Apache.pm
-lib/ServerControl/Schema/MacPorts/Memcached.pm
+lib/ServerControl/Module/MySQL.pm
+lib/ServerControl/Schema/Debian/MySQL.pm
+lib/ServerControl/Schema/MacPorts/MySQL.pm
 Makefile.PL
