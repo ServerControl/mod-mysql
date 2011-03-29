@@ -23,11 +23,12 @@ __PACKAGE__->Parameter(
 );
 
 __PACKAGE__->Directories(
+   "."      => { chmod => 0755, user => 'root', group => 'root' },
    bin      => { chmod => 0755, user => 'root', group => 'root' },
    conf     => { chmod => 0700, user => 'root', group => 'root' },
-   run      => { chmod => 0755, user =>  'root', group => 'root' },
-   data     => { chmod => 0755, user =>  'root', group => 'root' },
-   logs     => { chmod => 0755, user =>  'root', group => 'root' },
+   run      => { chmod => 0755, user =>  ServerControl::Args->get->{'user'}, group => 'root' },
+   data     => { chmod => 0755, user =>  ServerControl::Args->get->{'user'}, group => 'root' },
+   logs     => { chmod => 0755, user =>  ServerControl::Args->get->{'user'}, group => 'root' },
    "conf/mysql-conf.d"     => { chmod => 0700, user => 'root', group => 'root' },
 );
 
