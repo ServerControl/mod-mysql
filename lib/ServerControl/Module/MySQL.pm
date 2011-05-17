@@ -77,7 +77,7 @@ sub stop {
    my ($class) = @_;
 
    my ($name, $path) = ($class->get_name, $class->get_path);
-   my ($pid_file) = grep { /pid-file=(.*)/ => $_=$1; } eval { local(@ARGV) = ("$path/config/my.cnf"); <>; };
+   my ($pid_file) = grep { /pid-file=(.*)/ => $_=$1; } eval { local(@ARGV) = ("$path/conf/my.cnf"); <>; };
    unless($pid_file) {
       $pid_file = "$path/run/$name.pid";
    }
