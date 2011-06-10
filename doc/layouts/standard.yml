@@ -1,0 +1,50 @@
+Directories:
+   Base:
+      root:
+         name: "."
+         chmod: 755
+         user: root
+         group: root
+      bin:
+         name: bin
+         chmod: 755
+         user: root
+         group: root
+      data:
+         name: data
+         chmod: 755
+         user: <%= ServerControl::Args->get->{'user'} %>
+         group: root
+   Configuration:
+      conf:
+         name: conf
+         chmod: 700
+         user: root
+         group: root
+      confd:
+         name: conf/mysql-conf.d
+         chmod: 700
+         user: root
+         group: root
+   Runtime:
+      pid:
+         name: run
+         chmod: 755
+         user: <%= ServerControl::Args->get->{'user'} %>
+         group: root
+      log:
+         name: logs
+         chmod: 755
+         user: <%= ServerControl::Args->get->{'user'} %>
+         group: root
+
+Files:
+   Exec:
+      mysqld:
+         name: bin/mysqld-<%= __PACKAGE__->get_name %>
+         link: <%= ServerControl::Schema->get('mysqld_safe') %>
+   Configuration:
+      mycnf:
+         name: conf/my.cnf
+         call: <% sub { ServerControl::Template->parse(@_); } %>
+
