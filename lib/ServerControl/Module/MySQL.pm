@@ -11,12 +11,13 @@ use warnings;
 
 use ServerControl::Module;
 use ServerControl::Commons::Process;
-
-use base qw(ServerControl::Module);
+use Data::Dumper;
 
 our $VERSION = '0.93';
 
-use Data::Dumper;
+use base qw(ServerControl::Module);
+
+__PACKAGE__->Implements( qw(ServerControl::Module::PidFile) );
 
 __PACKAGE__->Parameter(
    help  => { isa => 'bool', call => sub { __PACKAGE__->help; } },
@@ -31,8 +32,6 @@ sub help {
    printf "  %-30s%s\n", "--path=", "The path where the instance should be created";
    print "\n";
    printf "  %-30s%s\n", "--user=", "MySQLd User";
-   printf "  %-30s%s\n", "--ip=", "Listen IP";
-   printf "  %-30s%s\n", "--port=", "Listen Port";
    print "\n";
    printf "  %-30s%s\n", "--create", "Create the instance";
    printf "  %-30s%s\n", "--start", "Start the instance";
@@ -65,40 +64,5 @@ sub create {
       ServerControl->d_print("Error running mysql_install_db.\n");
    }
 }
-
-sub stop {
-   my ($class) = @_;
-
-   my $exec_file   = ServerControl::FsLayout->get_file("Exec", "mysqld");
-   my $config_file = ServerControl::FsLayout->get_file("Configuration", "mycnf");
-   my $log_dir     = ServerControl::FsLayout->get_directory("Runtime", "log");
-   my $pid_dir     = ServerControl::FsLayout->get_directory("Runtime", "pid");
-
-   my ($name, $path) = ($class->get_name, $class->get_path);
-   my ($pid_file) = grep { /pid-file=(.*)/ => $_=$1; } eval { local(@ARGV) = ("$path/$config_file"); <>; };
-   unless($pid_file) {
-      $pid_file = "$path/$pid_dir/$name.pid";
-   }
-
-   my $pid = eval { local(@ARGV, $/) = ($pid_file); <>; };
-   chomp $pid;
-
-   ServerControl->d_print("Killing (15): $pid\n");
-
-   kill 15, $pid;
-}
-
-sub status {
-   my ($class) = @_;
-
-   my $config_file = ServerControl::FsLayout->get_file("Configuration", "mycnf");
-   my $pid_dir     = ServerControl::FsLayout->get_directory("Runtime", "pid");
-
-   my ($name, $path) = ($class->get_name, $class->get_path);
-   my $pid_file = "$path/$pid_dir/$name.pid";
-   if(-f $pid_file) { return 1; }
-}
-
-
 
 1;
