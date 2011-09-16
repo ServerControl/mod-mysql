@@ -43,6 +43,9 @@ Files:
       mysqld:
          name: bin/mysqld-<%= __PACKAGE__->get_name %>
          link: <%= ServerControl::Schema->get('mysqld_safe') %>
+      installdb:
+         name: bin/mysql_install_db
+         link: <%= ServerControl::Schema->get('mysql_install_db') %>
    Configuration:
       mycnf:
          name: conf/my.cnf
