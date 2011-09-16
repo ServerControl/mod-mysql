@@ -54,11 +54,12 @@ sub start {
 sub create {
    my ($class) = @_;
 
-   my $config_file = ServerControl::FsLayout->get_file("Configuration", "mycnf");
-   my $data_dir    = ServerControl::FsLayout->get_directory("Base", "data");
+   my $config_file   = ServerControl::FsLayout->get_file("Configuration", "mycnf");
+   my $data_dir      = ServerControl::FsLayout->get_directory("Base", "data");
+   my $install_db    = ServerControl::FsLayout->get_file("Exec", "installdb");
 
    my ($name, $path) = ($class->get_name, $class->get_path);
-   system(ServerControl::Schema->get('mysql_install_db') . " --defaults-file=$path/$config_file --datadir=$path/$data_dir --user=" . ServerControl::Args->get->{'user'});
+   system($install_db . " --defaults-file=$path/$config_file --datadir=$path/$data_dir --user=" . ServerControl::Args->get->{'user'});
 
    unless($? == 0) {
       ServerControl->d_print("Error running mysql_install_db.\n");
