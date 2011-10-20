@@ -13,7 +13,7 @@ use ServerControl::Module;
 use ServerControl::Commons::Process;
 use Data::Dumper;
 
-our $VERSION = '0.93';
+our $VERSION = '0.94';
 
 use base qw(ServerControl::Module);
 
@@ -59,7 +59,7 @@ sub create {
    my $install_db    = ServerControl::FsLayout->get_file("Exec", "installdb");
 
    my ($name, $path) = ($class->get_name, $class->get_path);
-   system($install_db . " --defaults-file=$path/$config_file --datadir=$path/$data_dir --user=" . ServerControl::Args->get->{'user'});
+   system("$path/$install_db --defaults-file=$path/$config_file --datadir=$path/$data_dir --user=" . ServerControl::Args->get->{'user'});
 
    unless($? == 0) {
       ServerControl->d_print("Error running mysql_install_db.\n");
