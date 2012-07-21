@@ -13,7 +13,7 @@ use ServerControl::Module;
 use ServerControl::Commons::Process;
 use Data::Dumper;
 
-our $VERSION = '0.94';
+our $VERSION = '0.199.0';
 
 use base qw(ServerControl::Module);
 
